@@ -5,7 +5,7 @@
     <table v-else-if="pizzasProduzir.length > 0" class="table mt-5">
       <tbody>
         <tr v-for="item in pizzasProduzir" :key="item.id">
-          <td>{{ item.id }}</td>
+          <td>#{{ item.id }}</td>
           <td class="w-100">{{ item.descricao }}</td>
           <td><router-link class="btn btn-primary" :to="'/item/' + item.id">Visualizar</router-link></td>
         </tr>
@@ -18,13 +18,26 @@
 </template>
 
 <script>
-import pizzasProduzir from '@/assets/data/pizzas_produzir'
+import axios from 'axios'
 
 export default {
   name: 'home',
   data: () => ({
-    pizzasProduzir: pizzasProduzir,
+    pizzasProduzir: [],
     carregando: false
-  })
+  }),
+  computed: {
+    pizzasProduzirUrl () {
+      return 'http://' + process.env.VUE_APP_PEDIDOS_API_HOST + ':' + process.env.VUE_APP_PEDIDOS_API_PORT + '/api/pizzas/pedido-recebido'
+    }
+  },
+  created () {
+    axios
+      .get(this.pizzasProduzirUrl)
+      .then(response => response.data)
+      .then(data => {
+        this.pizzasProduzir = data
+      })
+  }
 }
 </script>

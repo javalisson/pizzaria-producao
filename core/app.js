@@ -42,6 +42,37 @@ app.post('/api/echo', (req, res) => {
   res.send(req.body)
 })
 
+app.get('/api/pizza/:id', (req, res) => {
+  let id = req.params.id
+  let sql = `SELECT A.*, B.* FROM pedidos A JOIN sabores B ON A.sabor = B.sabor WHERE A.id = '${id}'`
+  connection.query(sql, (err, result) => {
+    if (err) throw err
+    console.log(result)
+    res.send(result[0])
+  })
+})
+
+app.get('/api/altera-status-pizza/:id/:status', (req, res) => {
+  let id = req.params.id
+  let status = req.params.status
+  let sql = `UPDATE pedidos SET status = '${status}' WHERE id = '${id}'`
+  connection.query(sql, (err, result) => {
+    if (err) throw err
+    console.log(result)
+    res.send(result)
+  })
+})
+
+app.get('/api/pizzas/:status', (req, res) => {
+  let status = req.params.status
+  let sql = `SELECT A.*, B.* FROM pedidos A JOIN sabores B ON A.sabor = B.sabor WHERE A.status = '${status}'`
+  connection.query(sql, (err, result) => {
+    if (err) throw err
+    console.log(result)
+    res.send(result)
+  })
+})
+
 app.use(express.static('public'))
 
 app.listen(port, () => console.log(`"Producao" ouvindo na porta ${port}`))
