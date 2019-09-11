@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "ordem": 1,
+    "descricao": "Posicione a massa na forma"
+  }, {
+    "id": 2,
+    "ordem": 2,
+    "descricao": "Aplique o molho de tomate"
+  }, {
+    "id": 3,
+    "ordem": 3,
+    "descricao": "Espalhe o queijo mussarela"
+  }, {
+    "id": 4,
+    "ordem": 4,
+    "descricao": "Espalhe o queijo mussarela"
+  }, {
+    "id": 5,
+    "ordem": 5,
+    "descricao": "Espalhe a calabresa"
+  }, {
+    "id": 6,
+    "ordem": 6,
+    "descricao": "Espalhe a cebola"
+  }, {
+    "id": 7,
+    "ordem": 7,
+    "descricao": "Espalhe as azeitonas"
+  }, {
+    "id": 8,
+    "ordem": 8,
+    "descricao": "Espalhe as azeitonas"
+  }, {
+    "id": 9,
+    "ordem": 9,
+    "descricao": "Espalhe o orégano"
+  }, {
+    "id": 10,
+    "ordem": 10,
+    "descricao": "Espalhe a pimenta calabresa"
+  }, {
+    "id": 11,
+    "ordem": 11,
+    "descricao": "Leve ao forno na temperatura de 180°C por 15 minutos"
+  }
+]

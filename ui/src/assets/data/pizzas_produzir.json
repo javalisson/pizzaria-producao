@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "descricao": "Calabresa",
+    "status": "preparar"
+  },
+  {
+    "id": 2,
+    "descricao": "Calabresa",
+    "status": "preparo-iniciado"
+  },
+  {
+    "id": 3,
+    "descricao": "Calabresa",
+    "status": "preparo-finalizado"
+  },
+  {
+    "id": 4,
+    "descricao": "Calabresa",
+    "status": "preparar"
+  },
+  {
+    "id": 5,
+    "descricao": "Calabresa",
+    "status": "preparar"
+  },
+  {
+    "id": 6,
+    "descricao": "Calabresa",
+    "status": "preparar"
+  }
+]

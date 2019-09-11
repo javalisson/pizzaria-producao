@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "nome": "Massa de pizza",
+    "quantidade": 1,
+    "unidade": "un"
+  },
+  {
+    "id": 2,
+    "nome": "Molho de tomate",
+    "quantidade": 50,
+    "unidade": "ml"
+  },
+  {
+    "id": 3,
+    "nome": "Queijo mussarela ralado",
+    "quantidade": 150,
+    "unidade": "g"
+  },
+  {
+    "id": 4,
+    "nome": "Linguiça calabresa em rodelas",
+    "quantidade": 200,
+    "unidade": "g"
+  },
+  {
+    "id": 5,
+    "nome": "Cebola em rodelas",
+    "quantidade": 75,
+    "unidade": "g"
+  },
+  {
+    "id": 6,
+    "nome": "Azeitonas fatiadas",
+    "quantidade": 25,
+    "unidade": "g"
+  },
+  {
+    "id": 7,
+    "nome": "Orégano",
+    "quantidade": 10,
+    "unidade": "g"
+  },
+  {
+    "id": 8,
+    "nome": "Pimenta calabresa",
+    "quantidade": 5,
+    "unidade": "g"
+  }
+]
