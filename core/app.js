@@ -60,6 +60,21 @@ app.get('/api/altera-status-pizza/:id/:status', (req, res) => {
     if (err) throw err
     console.log(result)
     res.send(result)
+
+    axios
+      .get(`http://${miiServerHost}:${miiServerPort}/XMII/Illuminator`, {
+        params: {
+          'QueryTemplate': 'Treinamento-setembro/aprestes/GreetingUserXct',
+          'Param.1': 'Producao',
+          'Content-Type': 'text/json',
+          'IllumLoginName': miiLoginName,
+          'IllumLoginPassword': miiLoginPassword
+        }
+      })
+      .then(response => response.data)
+      .then(data => {
+        console.log(data.Rowsets.Rowset[0].Row[0].resultado)
+      })
   })
 })
 
