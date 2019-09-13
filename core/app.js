@@ -44,10 +44,12 @@ app.post('/api/echo', (req, res) => {
 
 // insert com POST
 app.post('/api/pizza', (req, res) => {
+  console.log(req.body)
   let id = req.body.id
   let sabor = req.body.sabor
   let status = req.body.status
   let sql = `INSERT INTO pedidos (id, sabor, status) VALUES (${id}, '${sabor}', '${status}')`
+  console.log(sql)
   connection.query(sql, (err, result) => {
     if (err) throw err
     console.log(result)
