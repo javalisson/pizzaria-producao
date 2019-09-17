@@ -15,10 +15,13 @@
         <button v-if="pizza.status === 'pedido-pronto'" class="btn btn-secondary btn-lg mt-5" disabled>Pizza pronta para entrega</button>
       </div>
       <h2 class="mt-5">Ingredientes</h2>
-      <table class="table mt-3">
+      <div v-if="ingredientes.length == 0">
+        Carregando...
+      </div>
+      <table v-else class="table mt-3">
         <tbody>
           <tr v-for="(ingrediente, index) in ingredientes" :key="ingrediente.id">
-            <td>{{ index }}</td>
+            <td>{{ index + 1 }}</td>
             <td class="w-75">{{ ingrediente.nome }}</td>
             <td class="w-25 text-right">
               <span class="quantidade">{{ ingrediente.quantidade }}</span>
@@ -29,7 +32,10 @@
         </tbody>
       </table>
       <h2 class="mt-5">Receita</h2>
-      <table class="table mt-3">
+      <div v-if="receita.length == 0">
+        Carregando...
+      </div>
+      <table v-else class="table mt-3">
         <tbody>
           <tr v-for="(passo, index) in receita" :key="passo.id">
             <td>{{ index + 1 }}</td>
@@ -68,8 +74,8 @@ export default {
       return 'http://' + process.env.VUE_APP_PEDIDOS_API_HOST + ':' + process.env.VUE_APP_PEDIDOS_API_PORT + '/api/altera-status-pizza/' + this.idPizza + '/pedido-pronto'
     },
 
-    testeMII () {
-      return 'http://' + process.env.VUE_APP_PEDIDOS_API_HOST + ':' + process.env.VUE_APP_PEDIDOS_API_PORT + '/XMII/Illuminator'
+    ingredientesReceitaPorSaborUrl () {
+      return 'http://' + process.env.VUE_APP_PEDIDOS_API_HOST + ':' + process.env.VUE_APP_PEDIDOS_API_PORT + '/api/receita/' + this.pizza.sabor
     }
   },
 
@@ -81,26 +87,6 @@ export default {
 
   created () {
     this.carregaPizza()
-    this.receita = this.receita.sort((a, b) => a.ordem - b.ordem)
-    
-    axios
-      .get(this.testeMII, {
-        params:{
-          'QueryTemplate': 'Treinamento-setembro/aprestes/SelecionaIngredientesReceitaXct',
-          'Param.1': 'calabresa',
-          'Content-Type': 'text/json'
-        }
-      })
-      .then(response => response.data)
-      .then(data => {
-        let pizza = {}
-        pizza.id = data.Rowsets.Rowset[0].Row[0].id
-        pizza.sabor = data.Rowsets.Rowset[0].Row[0].sabor
-        pizza.versao = data.Rowsets.Rowset[0].Row[0].versao
-        pizza.ingredientes = this.ingredientes = data.Rowsets.Rowset[1].Row.map((row) => ({ id: row.id, nome: row.nome, quantidade: row.quantidade, unidade: row.unidade, ordem: row.ordem }))
-        pizza.receita = this.receita = data.Rowsets.Rowset[2].Row.map((row) => ({ id: row.id, descricao: row.descricao, ordem: row.ordem }))
-        
-      })
   },
 
   methods: {
@@ -114,16 +100,26 @@ export default {
           .then(data => {
             this.pizza = data
             this.carregando = false
+            this.carregaReceita()
           })
       } else {
         this.pizza = null
       }
     },
 
+    carregaReceita () {
+      axios
+        .get(this.ingredientesReceitaPorSaborUrl)
+        .then(response => response.data)
+        .then(data => {
+          this.ingredientes = data.ingredientes
+          this.receita = data.receita
+        })
+    },
+
     finalizaPizza () {
       axios
         .get(this.alteraStatusPizzaProntaUrl)
-
     }
   }
 }

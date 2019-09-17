@@ -125,6 +125,35 @@ app.get('/api/pizzas/:status', (req, res) => {
   })
 })
 
+app.get('/api/receita/:sabor', (req, res, next) => {
+  let sabor = req.params.sabor
+  axios
+      .get(`http://${miiServerHost}:${miiServerPort}/XMII/Illuminator`, {
+        params: {
+          'QueryTemplate': 'Treinamento-setembro/aprestes/SelecionaIngredientesReceitaXct',
+          'Param.1': sabor,
+          'Content-Type': 'text/json',
+          'IllumLoginName': miiLoginName,
+          'IllumLoginPassword': miiLoginPassword
+        }
+      })
+      .then(response => response.data)
+      .then(data => {
+        let pizza = {}
+        pizza.id = data.Rowsets.Rowset[0].Row[0].id
+        pizza.sabor = data.Rowsets.Rowset[0].Row[0].sabor
+        pizza.versao = data.Rowsets.Rowset[0].Row[0].versao
+        pizza.ingredientes = data.Rowsets.Rowset[1].Row.map(row => ({ id: row.id, nome: row.nome, quantidade: row.quantidade, unidade: row.unidade, ordem: row.ordem })).sort((a, b) => a.ordem - b.ordem)
+        pizza.receita = data.Rowsets.Rowset[2].Row.map(row => ({ id: row.id, descricao: row.descricao, ordem: row.ordem })).sort((a, b) => a.ordem - b.ordem)
+        res.send(pizza)
+      })
+      .catch(error => {
+        console.error(error)
+        res.status(500).send(error)
+        next(error)
+      })
+})
+
 app.use(express.static('public'))
 
 app.listen(port, () => console.log(`"Producao" ouvindo na porta ${port}`))
