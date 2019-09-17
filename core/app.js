@@ -1,6 +1,7 @@
 const axios = require('axios')
 const express = require('express')
 const cors = require('cors')
+const proxy = require('http-proxy-middleware')
 const app = express()
 
 require('dotenv').config()
@@ -14,6 +15,14 @@ const miiLoginPassword = process.env.MII_LOGIN_PASSWORD || '1234'
 
 app.use(cors())
 app.use(express.json())
+app.use('/XMII', proxy({
+  target: `http://${miiServerHost}:${miiServerPort}`,
+  changeOrigin: true,
+  // adiciona as credenciais do MII
+  pathRewrite: (path, req) => {
+    return path + `&IllumLoginName=${miiLoginName}&IllumLoginPassword=${miiLoginPassword}`
+  }
+}))
 
 const mysql = require('mysql')
 

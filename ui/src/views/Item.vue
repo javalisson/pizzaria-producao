@@ -8,7 +8,7 @@
     </nav>
     <div v-if="carregando">Carregando...</div>
     <div v-else>
-      <h1>Pizza {{ pizza.descricao }}, pedido #{{ pizza.id }}</h1>
+      <h1>{{ pizza.descricao }}, pedido #{{ pizza.id }}</h1>
       <div class="text-left">
         <button v-if="pizza.status === 'pedido-recebido'" class="btn btn-primary btn-lg mt-5" v-on:click.prevent="finalizaPizza">Alterar para status para pedido-pronto</button>
         <button v-if="pizza.status === 'preparo-iniciado'" class="btn btn-primary btn-lg mt-5">Pronto</button>
@@ -42,9 +42,6 @@
 </template>
 
 <script>
-import pizzaIngredientes from '@/assets/data/pizza_ingredientes_1'
-import pizzaReceita from '@/assets/data/pizza_receita_1'
-
 import axios from 'axios'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -57,8 +54,8 @@ export default {
   data: () => ({
     carregando: true,
     pizza: null,
-    ingredientes: pizzaIngredientes,
-    receita: pizzaReceita,
+    ingredientes: [],
+    receita: [],
     idPizza: null
   }),
 
@@ -69,6 +66,10 @@ export default {
 
     alteraStatusPizzaProntaUrl () {
       return 'http://' + process.env.VUE_APP_PEDIDOS_API_HOST + ':' + process.env.VUE_APP_PEDIDOS_API_PORT + '/api/altera-status-pizza/' + this.idPizza + '/pedido-pronto'
+    },
+
+    testeMII () {
+      return 'http://' + process.env.VUE_APP_PEDIDOS_API_HOST + ':' + process.env.VUE_APP_PEDIDOS_API_PORT + '/XMII/Illuminator'
     }
   },
 
@@ -81,6 +82,25 @@ export default {
   created () {
     this.carregaPizza()
     this.receita = this.receita.sort((a, b) => a.ordem - b.ordem)
+    
+    axios
+      .get(this.testeMII, {
+        params:{
+          'QueryTemplate': 'Treinamento-setembro/aprestes/SelecionaIngredientesReceitaXct',
+          'Param.1': 'calabresa',
+          'Content-Type': 'text/json'
+        }
+      })
+      .then(response => response.data)
+      .then(data => {
+        let pizza = {}
+        pizza.id = data.Rowsets.Rowset[0].Row[0].id
+        pizza.sabor = data.Rowsets.Rowset[0].Row[0].sabor
+        pizza.versao = data.Rowsets.Rowset[0].Row[0].versao
+        pizza.ingredientes = this.ingredientes = data.Rowsets.Rowset[1].Row.map((row) => ({ id: row.id, nome: row.nome, quantidade: row.quantidade, unidade: row.unidade, ordem: row.ordem }))
+        pizza.receita = this.receita = data.Rowsets.Rowset[2].Row.map((row) => ({ id: row.id, descricao: row.descricao, ordem: row.ordem }))
+        
+      })
   },
 
   methods: {

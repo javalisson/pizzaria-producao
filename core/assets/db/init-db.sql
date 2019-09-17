@@ -12,3 +12,7 @@ CREATE TABLE IF NOT EXISTS sabores (
   descricao VARCHAR(255) NOT NULL
 );
 
+-- INSERT INTO sabores(sabor, descricao) VALUES('calabresa','Pizza Calabresa');
+-- INSERT INTO sabores(sabor, descricao) VALUES('portuguesa','Pizza Portuguesa');
+-- INSERT INTO sabores(sabor, descricao) VALUES('quatro-queijos','Pizza Quatro Queijos');
+-- INSERT INTO sabores(sabor, descricao) VALUES('marguerita','Pizza Marguerita');
